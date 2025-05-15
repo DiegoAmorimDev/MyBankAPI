@@ -1,17 +1,23 @@
 <?php
 
-namespace Infrastructure\Http\Controllers\Api;
+namespace App\Infrastructure\Http\Controllers\Api; // <--- Alteração aqui
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller; // Importando o Controller base do Laravel
+use App\Http\Controllers\Controller; // Certifique-se que o Controller base do Laravel está sendo usado corretamente
 
 class AuthController extends Controller
 {
     public function login(Request $request)
     {
-        // Aqui você implementaria a lógica de autenticação real.
-        // Por enquanto, apenas uma resposta de sucesso para teste.
-        return response()->json(['message' => 'Rota de login acessada com sucesso!']);
+        $credentials = $request->validate([
+            'cpf' => 'required|string',
+            'password' => 'required|string',
+        ]);
+        return response()->json([
+            'message' => 'Endpoint de login acessado. Dados recebidos.',
+            'dados_recebidos' => $credentials
+            // aqui deveria retornar um token de acesso.
+        ]);
     }
 }
 

@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  # PHP-FPM Application Service
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      # args: # You can pass build arguments here if needed
+        # user: laravel
+        # uid: 1000
+    container_name: mybank_app
+    restart: unless-stopped
+    tty: true
+    environment:
+      SERVICE_NAME: app
+      SERVICE_TAGS: dev
+    working_dir: /var/www/html
+    volumes:
+      - ./:/var/www/html
+      # If you want to persist composer cache (optional)
+      # - ./docker/php/composer_cache:/root/.composer/cache
+    networks:
+      - mybank_network
+    # depends_on: # Add dependencies like database service here if you add one
+      # - db
+
+  # Nginx Web Server Service
+  nginx:
+    image: nginx:alpine
+    container_name: mybank_nginx
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "8000:80" # Host port 8000 maps to container port 80
+    volumes:
+      - ./:/var/www/html:ro # Mount application code read-only
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf # Nginx site configuration
+    networks:
+      - mybank_network
+    depends_on:
+      - app
+
+# Docker Networks
+networks:
+  mybank_network:
+    driver: bridge
+
+# Volumes (if you need named volumes for persistent data like database)
+# volumes:
+#   db_data: # Example for a database volume
+#     driver: local
+
