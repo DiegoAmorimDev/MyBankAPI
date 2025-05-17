@@ -156,6 +156,8 @@ Consulte a mensagem anterior com os exemplos de JSON para cada rota.
 | Contexto PixTransaction | Implementação da entidade `PixTransaction`, seus `ObjectValues` (`Amount`, `Description`, `TransactionId`, `Timestamp`), `PixTransactionController` e rotas. | Contexto Delimitado `PixTransaction` com Entidade e VOs. Controller na Infraestrutura. |
 | Dockerização    | Criação de `Dockerfile` e `docker-compose.yml` para ambiente de desenvolvimento. | Facilita a execução e o deploy, isolando o ambiente da aplicação. |
 | Documentação    | Criação de guias de uso Docker, execução local e documentação técnica. |  Disseminação do conhecimento sobre a arquitetura e uso. |
+| Application Layer    | Isolamento dos UseCases e DTOs na camada de aplicação |  Desacoplamento de camadas |
+
 
 **Nota sobre Persistência**: Atualmente, os controllers utilizam arrays estáticos em memória para simular a persistência de dados. Para testes persistentes e uma aplicação funcional, a implementação de repositórios reais com um banco de dados (ex: SQLite, MySQL) é um próximo passo crucial.
 
