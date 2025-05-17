@@ -1,7 +1,7 @@
 <?php
 // routes/api.php
 use Illuminate\Support\Facades\Route;
-use App\Infrastructure\Http\Controllers\Api\AuthController; // Adjusted namespace based on previous structure analysis
+use App\Infrastructure\Http\Controllers\Api\AuthController; 
 use App\Infrastructure\Http\Controllers\Api\PixKeyController;
 use App\Infrastructure\Http\Controllers\Api\PixTransactionController;
 

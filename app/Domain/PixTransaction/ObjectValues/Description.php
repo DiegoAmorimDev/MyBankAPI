@@ -10,7 +10,7 @@ class Description
 
     public function __construct(string $description)
     {
-        // Exemplo de validação: Limitar o tamanho da descrição
+       
         if (strlen($description) > 255) {
             throw new InvalidArgumentException("A descrição da transação não pode exceder 255 caracteres.");
         }

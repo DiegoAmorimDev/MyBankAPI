@@ -2,22 +2,30 @@
 
 namespace App\Infrastructure\Http\Controllers\Api;
 
-use App\Domain\PixKey\ObjectValues\AccountId;
-use App\Domain\PixTransaction\Entities\PixTransaction;
-use App\Domain\PixTransaction\ObjectValues\Amount;
-use App\Domain\PixTransaction\ObjectValues\Description;
+use App\Application\PixTransaction\DTOs\CreatePixTransactionRequestDTO;
+use App\Application\PixTransaction\DTOs\FindPixTransactionByIdRequestDTO;
+use App\Application\PixTransaction\UseCases\CreatePixTransactionUseCase;
+use App\Application\PixTransaction\UseCases\FindPixTransactionByIdUseCase;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class PixTransactionController extends Controller
 {
-    // Mocked data for demonstration
-    private static array $pixTransactions = [];
+    private CreatePixTransactionUseCase $createPixTransactionUseCase;
+    private FindPixTransactionByIdUseCase $findPixTransactionByIdUseCase;
+
+    public function __construct()
+    {
+        
+        $this->createPixTransactionUseCase = new CreatePixTransactionUseCase();
+        $this->findPixTransactionByIdUseCase = new FindPixTransactionByIdUseCase();
+    }
 
     public function create(Request $request): JsonResponse
     {
         try {
+            
             $validatedData = $request->validate([
                 'payer_account_id' => 'required|string',
                 'payee_account_id' => 'required|string',
@@ -25,36 +33,23 @@ class PixTransactionController extends Controller
                 'description' => 'nullable|string|max:255',
             ]);
 
-            $payerAccountId = new AccountId($validatedData['payer_account_id']);
-            $payeeAccountId = new AccountId($validatedData['payee_account_id']);
-            $amount = new Amount((float)$validatedData['amount']);
-            $description = isset($validatedData['description']) ? new Description($validatedData['description']) : null;
-
-            $transaction = new PixTransaction(
-                $payerAccountId,
-                $payeeAccountId,
-                $amount,
-                $description
+            
+            $requestDTO = new CreatePixTransactionRequestDTO(
+                $validatedData['payer_account_id'],
+                $validatedData['payee_account_id'],
+                (float)$validatedData['amount'],
+                $validatedData['description'] ?? null
             );
 
-            self::$pixTransactions[$transaction->getId()->getValue()] = $transaction;
+            
+            $responseDTO = $this->createPixTransactionUseCase->execute($requestDTO);
 
-
-            $transaction->complete();
-            self::$pixTransactions[$transaction->getId()->getValue()] = $transaction; 
-
+            
             return response()->json([
                 'message' => 'Transação PIX criada e processada com sucesso!',
-                'transaction_id' => $transaction->getId()->getValue(),
-                'status' => $transaction->getStatus(),
-                'data' => [
-                    'payer_account_id' => $transaction->getPayerAccountId()->getValue(),
-                    'payee_account_id' => $transaction->getPayeeAccountId()->getValue(),
-                    'amount' => $transaction->getAmount()->getValue(),
-                    'description' => $transaction->getDescription()?->getValue(),
-                    'created_at' => $transaction->getCreatedAt()->__toString(),
-                    'updated_at' => $transaction->getUpdatedAt()->__toString(),
-                ]
+                'transaction_id' => $responseDTO->getId(),
+                'status' => $responseDTO->getStatus(),
+                'data' => $responseDTO->toArray()
             ], 201);
         } catch (\InvalidArgumentException $e) {
             return response()->json(['error' => $e->getMessage()], 400);
@@ -67,21 +62,25 @@ class PixTransactionController extends Controller
 
     public function findById(string $id): JsonResponse
     {
-        if (!isset(self::$pixTransactions[$id])) {
-            return response()->json(['error' => 'Transação PIX não encontrada.'], 404);
+        try {
+            
+            $requestDTO = new FindPixTransactionByIdRequestDTO($id);
+
+            
+            $responseDTO = $this->findPixTransactionByIdUseCase->execute($requestDTO);
+
+            
+            if ($responseDTO === null) {
+                return response()->json(['error' => 'Transação PIX não encontrada.'], 404);
+            }
+
+            
+            return response()->json([
+                'message' => 'Transação PIX encontrada com sucesso!',
+                'data' => $responseDTO->toArray()
+            ]);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Erro ao buscar transação PIX: ' . $e->getMessage()], 500);
         }
-        $transaction = self::$pixTransactions[$id];
-        return response()->json([
-            'transaction_id' => $transaction->getId()->getValue(),
-            'payer_account_id' => $transaction->getPayerAccountId()->getValue(),
-            'payee_account_id' => $transaction->getPayeeAccountId()->getValue(),
-            'amount' => $transaction->getAmount()->getValue(),
-            'description' => $transaction->getDescription()?->getValue(),
-            'status' => $transaction->getStatus(),
-            'created_at' => $transaction->getCreatedAt()->__toString(),
-            'updated_at' => $transaction->getUpdatedAt()->__toString(),
-        ]);
     }
-
 }
-

@@ -3,7 +3,7 @@
 namespace App\Infrastructure\Http\Controllers\Api; // <--- Alteração aqui
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller; // Certifique-se que o Controller base do Laravel está sendo usado corretamente
+use App\Http\Controllers\Controller; // laravel controller
 
 class AuthController extends Controller
 {

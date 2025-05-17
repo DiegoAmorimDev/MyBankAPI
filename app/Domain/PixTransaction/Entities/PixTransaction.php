@@ -2,7 +2,7 @@
 
 namespace App\Domain\PixTransaction\Entities;
 
-use App\Domain\PixKey\ObjectValues\AccountId; // Assuming sender/receiver are identified by AccountId
+use App\Domain\PixKey\ObjectValues\AccountId; // Dependência entre contextos
 use App\Domain\PixTransaction\ObjectValues\Amount;
 use App\Domain\PixTransaction\ObjectValues\Description;
 use App\Domain\PixTransaction\ObjectValues\TransactionId;
@@ -17,7 +17,7 @@ class PixTransaction
     private ?Description $description;
     private Timestamp $createdAt;
     private Timestamp $updatedAt;
-    private string $status; // e.g., PENDING, COMPLETED, FAILED
+    private string $status; 
 
     public function __construct(
         AccountId $payerAccountId,
@@ -25,14 +25,14 @@ class PixTransaction
         Amount $amount,
         ?Description $description = null
     ) {
-        $this->id = new TransactionId(); // Auto-generate ID
+        $this->id = new TransactionId(); 
         $this->payerAccountId = $payerAccountId;
         $this->payeeAccountId = $payeeAccountId;
         $this->amount = $amount;
         $this->description = $description;
         $this->createdAt = new Timestamp();
         $this->updatedAt = new Timestamp();
-        $this->status = 'PENDING'; // Initial status
+        $this->status = 'PENDING'; 
     }
 
     public function getId(): TransactionId

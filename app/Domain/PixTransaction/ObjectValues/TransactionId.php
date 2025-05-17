@@ -10,7 +10,7 @@ class TransactionId
 
     public function __construct(?string $transactionId = null)
     {
-        // Gera um UUID v4 se nenhum ID for fornecido
+        // usando toString para gerar um uuid v4 se nenhum id for fornecido.
         $this->value = $transactionId ?? Uuid::uuid4()->toString();
     }
 

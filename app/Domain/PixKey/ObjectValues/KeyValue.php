@@ -10,10 +10,8 @@ class KeyValue
 
     // A validação do KeyValue dependeria do KeyType.
     // Por simplicidade, faremos uma validação genérica aqui.
-    // Em um cenário real, essa lógica seria mais complexa e poderia
-    // estar em um serviço de domínio ou na própria entidade PixKey
-    // ao receber o tipo e o valor da chave.
-    public function __construct(string $value, KeyType $keyType) // Adicionado KeyType para validação contextual
+
+    public function __construct(string $value, KeyType $keyType) 
     {
         $this->validate($value, $keyType);
         $this->value = $value;
@@ -27,13 +25,13 @@ class KeyValue
 
         switch ($keyType->getValue()) {
             case 'cpf':
-                // Adicionar validação de CPF (ex: regex, cálculo de dígitos verificadores)
+                // Simulação da validação de CPF (regras de negócio)
                 if (!preg_match('/^\d{11}$/', $value)) {
                     // throw new InvalidArgumentException('Valor de chave PIX inválido para o tipo CPF.');
                 }
                 break;
             case 'cnpj':
-                // Adicionar validação de CNPJ
+                
                 if (!preg_match('/^\d{14}$/', $value)) {
                     // throw new InvalidArgumentException('Valor de chave PIX inválido para o tipo CNPJ.');
                 }
@@ -44,7 +42,7 @@ class KeyValue
                 }
                 break;
             case 'phone':
-                // Adicionar validação de telefone (ex: +5511999999999)
+                
                 if (!preg_match('/^\+\d{1,3}\d{2}\d{8,9}$/', $value)) {
                     // throw new InvalidArgumentException('Valor de chave PIX inválido para o tipo Telefone. Formato esperado: +5511999999999');
                 }
