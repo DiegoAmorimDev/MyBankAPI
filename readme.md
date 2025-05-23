@@ -159,7 +159,7 @@ Consulte a mensagem anterior com os exemplos de JSON para cada rota.
 | Application Layer    | Isolamento dos UseCases e DTOs na camada de aplicação |  Desacoplamento de camadas |
 
 
-**Nota sobre Persistência**: Atualmente, os controllers utilizam arrays estáticos em memória para simular a persistência de dados. Para testes persistentes e uma aplicação funcional, a implementação de repositórios reais com um banco de dados (ex: SQLite, MySQL) é um próximo passo crucial.
+**Nota sobre Persistência**: Atualmente, a camada de persistência está sendo simulada com dados mockados em memória.. Para testes persistentes e uma aplicação funcional, a implementação de repositórios reais com um banco de dados (ex: SQLite, MySQL) é um próximo passo crucial.
 
 ---
 
@@ -174,10 +174,10 @@ Consulte a mensagem anterior com os exemplos de JSON para cada rota.
 
 ## 🛠️ Próximos Passos (Sugestões)
 
-- Implementar persistência real com banco de dados (SQLite, MySQL).
+- Implementar persistência real com banco de dados (PostgreSQL, SQL Server).
 - Criar interfaces de Repositório no Domínio e implementações na Infraestrutura.
-- Formalizar a Camada de Aplicação com Serviços de Aplicação (Use Cases).
 - Implementar autenticação robusta com tokens (Sanctum ou JWT).
+- Formalizar a Camada de Aplicação com Serviços de Aplicação (Use Cases)
 - Adicionar testes unitários, de integração e de feature.
 - Gerar documentação da API (Swagger/OpenAPI).
 

@@ -15,7 +15,7 @@ use InvalidArgumentException;
  */
 class CreatePixKeyUseCase
 {
-    // Em um cenário real, injetaríamos um repositório aqui
+    
     private static array $pixKeys = [];
 
     /**
@@ -27,18 +27,18 @@ class CreatePixKeyUseCase
      */
     public function execute(CreatePixKeyRequestDTO $requestDTO): PixKeyResponseDTO
     {
-        // Converter dados primitivos em Objetos de Valor do domínio
+        
         $accountId = new AccountId($requestDTO->getAccountId());
         $keyType = new KeyType($requestDTO->getKeyType());
         $keyValue = new KeyValue($requestDTO->getKeyValue(), $keyType);
 
-        // Criar a entidade PixKey
+        
         $pixKey = new PixKey($accountId, $keyType, $keyValue);
 
-        // Simular persistência (em um cenário real, usaríamos um repositório)
+        
         self::$pixKeys[$pixKey->getId()] = $pixKey;
 
-        // Retornar DTO de resposta
+        
         return new PixKeyResponseDTO(
             $pixKey->getId(),
             $pixKey->getAccountId()->getValue(),
