@@ -22,7 +22,7 @@ Esta estruturação permite uma clara separação de responsabilidades e facilit
 
 ## Mapa de Contextos do Projeto
 
-![Mapa de Contextos](media/mapa-de-contextos.png)
+![Mapa de Contextos](media/mapa-de-contextos-geral.png)
 
 
 ### 2. Implementação do Domínio de Autenticação
