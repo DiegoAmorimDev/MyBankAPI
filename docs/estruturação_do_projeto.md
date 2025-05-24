@@ -18,11 +18,11 @@ Esta estruturação permite uma clara separação de responsabilidades e facilit
 
 ## Estrutura de Pacotes do Projeto
 
-![Diagrama de Pacotes](../media/diagrama-pacotes.png)
+![Diagrama de Pacotes](media/diagrama-pacotes.png)
 
 ## Mapa de Contextos do Projeto
 
-![Mapa de Contextos](../media/mapa-de-contextos.png)
+![Mapa de Contextos](media/mapa-de-contextos.png)
 
 
 ### 2. Implementação do Domínio de Autenticação
@@ -69,7 +69,7 @@ Foram implementados os casos de uso e DTOs para as operações do sistema:
 
 ## Casos de Uso
 
-![Casos de Uso](../media/diagrama-casos-de-uso.png)
+![Casos de Uso](media/diagrama-casos-de-uso.png)
 
 ### 6. Implementação da Camada de Infraestrutura
 
